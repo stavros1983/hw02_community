@@ -3,12 +3,15 @@ from django.shortcuts import render, get_object_or_404
 from .models import Post, Group
 # Create your views here.
 
+LAST_PUB = 10
+
 
 def index(request):
     # Одна строка вместо тысячи слов на SQL:
     # в переменную posts будет сохранена выборка из 10 объектов модели Post,
     # отсортированных по полю pub_date по убыванию
-    posts = Post.objects.order_by('-pub_date')[:10]
+    posts = Post.objects.all()
+    posts = posts[:LAST_PUB]
     # В словаре context отправляем информацию в шаблон
     context = {
         'posts': posts,
@@ -23,11 +26,8 @@ def group_posts(request, slug):
     # В нашем случае в переменную group будут переданы объекты модели Group,
     # поле slug у которых соответствует значению slug в запросе
     group = get_object_or_404(Group, slug=slug)
-
-    # Метод .filter позволяет ограничить поиск по критериям.
-    # Это аналог добавления
-    # условия WHERE group_id = {group_id}
-    posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
+    posts = group.posts.all()
+    posts = posts[:LAST_PUB]
     context = {
         'group': group,
         'posts': posts,
