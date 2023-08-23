@@ -1,5 +1,3 @@
-<!-- templates/posts/group_list.html -->
-<!DOCTYPE html> 
 {% extends 'base.html' %}
 {% block title %}
   Записи сообщества {{ group.title }}
@@ -10,7 +8,7 @@
     <h3>{{ group.description|linebreaks }}</h3>
   </div>
   <div class="container">
-  {% for post in posts %}
+  {% for post in page_obj %}
     <article>
     <ul>
       <li>
@@ -24,5 +22,10 @@
     <article/>
     {% if not forloop.last %}<hr>{% endif %}  
   {% endfor %}
-  </div>  
+  </div>
+  <div class="d-flex justify-content-center">
+    <div>
+      {% include 'posts/includes/paginator.html' %}
+    </div>
+  </div>     
 {% endblock %} 

@@ -1,11 +1,12 @@
-<!-- templates/posts/index.html -->
-<!DOCTYPE html> 
 {% extends 'base.html' %}
 {% block title %}
   Последние обновления на сайте
+{% endblock %}
+{% block header %}
+  Последние обновления на сайте
 {% endblock %}  
 {% block content %}
-{% for post in posts %}
+{% for post in page_obj %}
   <ul>
     <li>
       <b>Автор: {{ post.author.get_full_name }} </b>
@@ -25,4 +26,9 @@
   {% endif %}
   {% if not forloop.last %}<hr>{% endif %}
 {% endfor %}
+  <div class="d-flex justify-content-center">
+    <div>
+      {% include 'posts/includes/paginator.html' %}
+    </div>
+  </div>
 {% endblock %} 
